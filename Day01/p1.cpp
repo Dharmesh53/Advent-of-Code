@@ -1,13 +1,7 @@
 #include<iostream>
-#include<sstream>
 #include<fstream>
+#include<sstream>
 #include<string>
-#include<unordered_map>
-
-const std::unordered_map<std::string, int> mp = {
-    {"one", 1}, {"two", 2}, {"three", 3}, {"four", 4},
-    {"five", 5}, {"six", 6}, {"seven", 7}, {"eight", 8}, {"nine", 9}
-};
 
 int findNum(std::string word) {
   int i = 0, j = word.size() - 1;
@@ -26,14 +20,51 @@ int findNum(std::string word) {
 }
 
 int main(int argc, char* argv[]) {
-  std::stringstream ss;
   
+  if(argc != 2) {
+    std::cout << "Usage: " << argv[0] << " <input filename>" << std::endl; 
+    return 1;
+  }
+  
+  std::ifstream file(argv[1]);
+  
+  std::string line;
+
+  if(!file.is_open()) {
+    std::cout << "Failed to open the file" << std::endl;
+    return 1;
+  }
+
+  int ans = 0;
+
+  while(std::getline(file, line)) {
+    int num = findNum(line.c_str());
+    ans += num;
+  }
+
+  std::cout << ans << std::endl;
+
+  file.close();
+  
+  return 0;
+}
+
+
+
+/* 
+
+Handling input file in the main function
+Along with string stream
+
+int main(int argc, char* argv[]) {
+  std::stringstream ss;
+
   std::ifstream file("input1.txt");
 
   ss << file.rdbuf();
-  
+
   std::string word;
-  
+
   int ans = 0;
 
   while(ss >> word) {
@@ -44,3 +75,4 @@ int main(int argc, char* argv[]) {
   return 0;
 }
 
+*/
